@@ -1,24 +1,48 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import './style.css';
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const numOfDecks = 1;
+const suits = ['H', 'D', 'C', 'S'];
+const cards = [
+	'2',
+	'3',
+	'4',
+	'5',
+	'6',
+	'7',
+	'8',
+	'9',
+	'10',
+	'J',
+	'Q',
+	'K',
+	'A'
+];
 
-setupCounter(document.querySelector('#counter'))
+let playingCards = [];
+
+// Create the required amount of playing cards.
+for (let i = 0; i < numOfDecks; i++) {
+	suits.forEach((suit) => {
+		cards.forEach((card) => {
+			playingCards.push({
+				card,
+				suit
+			});
+		});
+	});
+}
+
+// Fisher-Yates Algorithim for Shuffling
+const shuffle = (cards) => {
+	for (let i = cards.length - 1; i > 0; i--) {
+		// Generate a random index from 0 to i.
+		const randomIndex = Math.floor(Math.random() * (i + 1));
+
+		// Swap elements at i and randomIndex.
+		[cards[i], cards[randomIndex]] = [cards[randomIndex], cards[i]];
+	}
+
+	return cards;
+};
+
+console.log(shuffle(playingCards));
