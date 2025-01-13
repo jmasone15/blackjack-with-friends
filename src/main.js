@@ -18,7 +18,11 @@ const cards = [
 	'A'
 ];
 
+const dealerCardsDiv = document.getElementById('dealer-cards');
+const playerCardsDiv = document.getElementById('player-cards');
+
 let playingCards = [];
+let cardIndex = 0;
 
 // Create the required amount of playing cards.
 for (let i = 0; i < numOfDecks; i++) {
@@ -45,4 +49,35 @@ const shuffle = (cards) => {
 	return cards;
 };
 
-console.log(shuffle(playingCards));
+const startRound = () => {
+	// Shuffle cards
+	playingCards = shuffle(playingCards);
+
+	// Deal Cards
+	const interval = setInterval(() => {
+		deal(playingCards[cardIndex], cardIndex % 2 == 0);
+		if (cardIndex == 4) {
+			clearInterval(interval);
+		}
+	}, 500);
+};
+
+const deal = ({ card, suit }, toPlayer) => {
+	const newCardDiv = document.createElement('div');
+	newCardDiv.setAttribute('class', 'col-2 playing-card');
+	newCardDiv.innerHTML = `<div class="card text-white" style="background-color: lightslategray;">
+              <div class="card-body my-5">
+                <b>${card} ${suit}</b>
+              </div>
+            </div>`;
+
+	if (toPlayer) {
+		playerCardsDiv.appendChild(newCardDiv);
+	} else {
+		dealerCardsDiv.appendChild(newCardDiv);
+	}
+
+	cardIndex++;
+};
+
+startRound();
