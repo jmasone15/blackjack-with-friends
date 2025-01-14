@@ -114,7 +114,9 @@ const calculateHandTotal = (hand, toPlayer = true) => {
 	for (let i = 0; i < aceCount; i++) {
 		let aceAddition = 10 * (i + 1);
 
-		if (total + aceAddition <= 21) {
+		if (total + aceAddition == 21) {
+			totalString = 21;
+		} else if (total + aceAddition <= 21) {
 			totalString += ` / ${total + aceAddition}`;
 		}
 	}
