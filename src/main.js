@@ -1,5 +1,7 @@
 import './style.css';
 
+// TODO - Minify Code for enhance deciphering trouble.
+
 const numOfDecks = 1;
 const suits = ['H', 'D', 'C', 'S'];
 const cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
@@ -8,6 +10,9 @@ const dealerCardsDiv = document.getElementById('dealer-cards');
 const playerCardsDiv = document.getElementById('player-cards');
 const dealerScoreDiv = document.getElementById('dealer-score');
 const playerScoreDiv = document.getElementById('player-score');
+const buttonsDiv = document.getElementById('buttons');
+const hitButton = document.getElementById('hit');
+const standButton = document.getElementById('stand');
 
 let playingCards = [];
 let cardIndex = 0;
@@ -50,24 +55,26 @@ const startRound = async () => {
 
 	// Deal Cards
 	for (let i = 0; i < 4; i++) {
-		// deal(playingCards[cardIndex], cardIndex % 2 == 0, cardIndex == 3);
-		deal(playingCards[cardIndex], cardIndex % 2 == 0, false);
+		deal(cardIndex, cardIndex % 2 == 0, cardIndex == 3);
 		await delay(500);
 	}
 
 	// Calculate Totals
-	let playerTotal = calculateHandTotal(playerHand);
-	let dealerTotal = calculateHandTotal(dealerHand);
+	calculateHandTotal(playerHand);
+	dealerScoreDiv.innerHTML = '<b>Total:</b> ???';
 
-	playerScoreDiv.innerHTML = `<b>Total:</b> ${playerTotal}`;
-	dealerScoreDiv.innerHTML = `<b>Total:</b> ${dealerTotal}`;
+	// Show Action Buttons
+	buttonsDiv.setAttribute('class', 'row');
 };
 
-const deal = (card, toPlayer, faceDown) => {
+const deal = (cardIdx, toPlayer, faceDown) => {
+	const card = playingCards[cardIdx];
 	const newCardDiv = document.createElement('div');
 	newCardDiv.setAttribute('class', 'col-2 playing-card');
 	newCardDiv.innerHTML = `<div class="card text-white" style="background-color: lightslategray;">
-              <div class="card-body my-5">
+              <div id=${cardIdx} class="card-body my-5" ${
+		faceDown ? "alt='Trying to look at the code? Unacceptable.'" : ''
+	}>
                 <b>${faceDown ? '???' : `${card.card} ${card.suit}`}</b>
               </div>
             </div>`;
@@ -83,10 +90,11 @@ const deal = (card, toPlayer, faceDown) => {
 	cardIndex++;
 };
 
-const calculateHandTotal = (hand) => {
+const calculateHandTotal = (hand, toPlayer = true) => {
 	let total = 0;
 	let aceCount = 0;
 
+	// Total up card values and count Aces.
 	hand.forEach((card) => {
 		if (typeof card.card === 'string') {
 			if (card.card === 'A') {
@@ -111,7 +119,26 @@ const calculateHandTotal = (hand) => {
 		}
 	}
 
-	return totalString;
+	if (toPlayer) {
+		playerScoreDiv.innerHTML = `<b>Total:</b> ${totalString}`;
+	} else {
+		dealerScoreDiv.innerHTML = `<b>Total:</b> ${totalString}`;
+	}
 };
+
+const hitMe = async () => {
+	deal(cardIndex, true, false);
+	calculateHandTotal(playerHand);
+};
+
+const dealerTurn = () => {
+	const flippedCard = document.getElementById(3);
+	const card = playingCards[3];
+	flippedCard.innerHTML = `<b>${card.card} ${card.suit}</b>`;
+	calculateHandTotal(dealerHand, false);
+};
+
+hitButton.addEventListener('click', hitMe);
+standButton.addEventListener('click', dealerTurn);
 
 startRound();

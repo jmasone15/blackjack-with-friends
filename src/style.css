@@ -7,8 +7,27 @@
   height: 30vh;
 }
 
-@media screen and (max-height: 750px) {
+footer {
+  position: fixed;
+  height: 100px;
+  bottom: 0;
+  width: 100%;
+}
+
+@media screen and (max-height: 1000px) {
   .spacer {
     height: 10vh;
+  }
+  footer {
+    height: 75px;
+  }
+}
+
+@media screen and (max-height: 750px) {
+  .spacer {
+    height: 1vh;
+  }
+  footer {
+    height: 50px;
   }
 }
