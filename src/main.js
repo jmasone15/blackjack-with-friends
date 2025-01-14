@@ -136,6 +136,8 @@ const dealerTurn = () => {
 	const card = playingCards[3];
 	flippedCard.innerHTML = `<b>${card.card} ${card.suit}</b>`;
 	calculateHandTotal(dealerHand, false);
+
+	// If 16 or less, hit. Otherwise stand.
 };
 
 hitButton.addEventListener('click', hitMe);
