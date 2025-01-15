@@ -22,6 +22,24 @@
     </div>
   </nav>
 
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h1 class="modal-title fs-5" id="modal-header"></h1>
+        </div>
+        <div id="modal-body" class="modal-body">
+
+        </div>
+        <div class="modal-footer">
+          <button id="modal-button" class="btn btn-success">Next Round</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main class="container-fluid text-center">
     <!-- Dealer Section -->
     <div class="row">
@@ -35,8 +53,9 @@
       </div>
     </div>
     <!-- Spacer -->
-    <div class="row">
-      <div class="col spacer"></div>
+    <div class="row align-items-center">
+      <div class="col spacer">
+      </div>
     </div>
     <!-- Player Section -->
     <div class="row">
